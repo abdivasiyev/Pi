@@ -1,0 +1,27 @@
+{
+    "name": "space-coders/gamma-soft",
+    "description": "Php mvc framework",
+    "type": "project",
+    "license": "GPL 3.0",
+    "authors": [
+        {
+            "name": "Asliddin Abdivasiyev Azizovich",
+            "email": "space.coding.programmer@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "app/controllers",
+            "app/core",
+            "app/models"
+        ],
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0.0",
+        "filp/whoops": "^2.7"
+    }
+}

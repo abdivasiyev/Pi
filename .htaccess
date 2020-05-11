@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    Options -Indexes
+    RewriteEngine On
+</IfModule>
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/(assets)
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/public/(assets)/
+    RewriteCond %{REQUEST_URI} !index.php
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ public/index.php
+</IfModule>
