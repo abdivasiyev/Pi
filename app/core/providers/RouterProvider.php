@@ -9,8 +9,14 @@ use app\core\base\AbstractProvider;
 class RouterProvider extends AbstractProvider
 {
 
+    /**
+     * @var string
+     */
     public $name = 'router';
 
+    /**
+     * @return Router|mixed
+     */
     public function init()
     {
         return new Router(Pi::$app->baseUrl);

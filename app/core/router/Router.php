@@ -8,30 +8,32 @@ use app\core\base\AbstractRouter;
 
 class Router extends AbstractRouter
 {
-    private $routePath;
-
+    /**
+     * @var string
+     */
     private $patternKey = 'pattern';
 
+    /**
+     * @var string
+     */
     private $controllerKey = 'controller';
 
+    /**
+     * @var string
+     */
     private $methodKey = 'method';
 
-    public function __construct($host)
-    {
-        parent::__construct($host);
-
-        // $this->routePath = Pi::$app->config->routePath;
-        $this->routePath = APP_DIR . 'config/routes.php';
-    }
-
+    /**
+     *
+     */
     public function initRoutes()
     {
-        $routes = require_once $this->routePath;
+        $routes = $this->getRoutes();
 
         if (!is_array($routes))
         {
             throw new InvalidArgumentException(
-                sprintf("Invalid route array in %s", $this->routePath)
+                sprintf("Invalid route array in %s", Pi::$app->configPath)
             );
         }
 
@@ -55,5 +57,18 @@ class Router extends AbstractRouter
                 );
             }
         }
+    }
+
+    /**
+     * @return string[][]
+     */
+    private function getRoutes()
+    {
+        if (isset(Pi::$app->config->routes))
+        {
+            return Pi::$app->config->routes;
+        }
+
+        return ['home' => ['/', 'index']];
     }
 }

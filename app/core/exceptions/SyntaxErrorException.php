@@ -6,5 +6,4 @@ use app\core\base\AbstractException;
 
 class SyntaxErrorException extends AbstractException
 {
-    
 }

@@ -7,17 +7,29 @@ use app\core\exceptions\FileSystemException;
 class AbstractView extends AbstractComponent
 {
 
+    /**
+     * @var
+     */
     public $content;
 
+    /**
+     * @var array
+     */
     public $params = [];
-    
+
     /**
      * @param $view
      * @param array $vars
-     * @throws \Exception
+     * @return false|string
+     * @throws FileSystemException
      */
-    public function render($view, $vars = [])
+    public function render($view = '', $vars = [])
     {
+        if ($view === '')
+        {
+            return '';
+        }
+
         $viewPath = $this->getViewPath($view);
 
         if (!is_file($viewPath)) {
@@ -37,9 +49,7 @@ class AbstractView extends AbstractComponent
             throw new $e;
         }
 
-        $content = ob_get_clean();
-
-        return $content;
+        return ob_get_clean();
     }
 
     /**

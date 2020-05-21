@@ -4,12 +4,20 @@ namespace app\core\router;
 
 class DispatchedRoute
 {
-    
+
+    /**
+     * @var
+     */
     private $controller;
+    /**
+     * @var array
+     */
     private $parameters;
 
     /**
      * DispatchedRoute constructor.
+     * @param $controller
+     * @param array $parameters
      */
     public function __construct($controller, $parameters = [])
     {
@@ -18,7 +26,7 @@ class DispatchedRoute
     }
 
     /**
-     * @return $controller
+     * @return mixed
      */
     public function getController()
     {

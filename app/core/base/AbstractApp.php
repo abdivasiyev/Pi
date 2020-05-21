@@ -2,30 +2,52 @@
 
 namespace app\core\base;
 
+use app\core\renderers\Controller;
 use Pi;
 use ErrorException;
 use Whoops\Handler\Handler;
-use app\core\base\Controller;
-use InvalidArgumentException;
 use app\core\router\DispatchedRoute;
 
 abstract class AbstractApp extends AbstractComponent
 {
 
+    /**
+     * @var
+     */
     public static $app;
 
+    /**
+     * @var string
+     */
     public $baseUrl = '/';
 
+    /**
+     * @var string
+     */
+    public $configPath = APP_DIR . 'config/';
+
+    /**
+     * @var string
+     */
     private $servicePath;
 
+    /**
+     * @var string
+     */
     private $runtimePath;
 
+    /**
+     * AbstractApp constructor.
+     */
     public function __construct()
     {
         $this->servicePath = APP_DIR . 'app/core/service/service.php';
         $this->runtimePath = APP_DIR . 'runtime/';
     }
 
+    /**
+     * @return Pi
+     */
     public static function getInstance()
     {
         if (static::$app === null) {
@@ -35,6 +57,9 @@ abstract class AbstractApp extends AbstractComponent
         return static::$app;
     }
 
+    /**
+     * @param $startTime
+     */
     public function run($startTime)
     {
         session_start();
@@ -59,6 +84,9 @@ abstract class AbstractApp extends AbstractComponent
         }
     }
 
+    /**
+     * @return array|mixed
+     */
     protected function loadServices()
     {
         $services = require_once $this->servicePath;
@@ -70,6 +98,9 @@ abstract class AbstractApp extends AbstractComponent
         return $services;
     }
 
+    /**
+     * @param $services
+     */
     protected function initServices($services)
     {
         foreach ($services as $service) {
@@ -79,16 +110,22 @@ abstract class AbstractApp extends AbstractComponent
         }
     }
 
+    /**
+     *
+     */
     protected function initRoutes()
     {
         Pi::$app->router->initRoutes();
     }
 
+    /**
+     *
+     */
     protected function initController()
     {
         try {
-            $requestMethod = Pi::$app->request->server('REQUEST_METHOD');
-            $requestUri = Pi::$app->request->server('REQUEST_URI');
+            $requestMethod = Pi::$app->request->server['REQUEST_METHOD'];
+            $requestUri = urldecode(Pi::$app->request->server['REQUEST_URI']);
             $requestUri = ($position = strpos($requestUri, '?')) ? $requestUri = substr($requestUri, 0, $position) : $requestUri;
             $routerDispatch = Pi::$app->router->dispatch(
                 $requestMethod,
@@ -109,13 +146,16 @@ abstract class AbstractApp extends AbstractComponent
         }
     }
 
+    /**
+     * @param $startTime
+     */
     protected function logExecution($startTime)
     {
         $endTime = microtime(true);
 
         $executionTime = ($endTime - $startTime);
 
-        $data = sprintf("Executed in %f seconds. Started: [%s]. Endend: [%s]\n",
+        $data = sprintf("Executed in %f seconds. Started: [%s]. Ended: [%s]\n",
             $executionTime,
             date("Y-m-d h:i:s", $startTime),
             date("Y-m-d h:i:s", $endTime));
@@ -125,6 +165,9 @@ abstract class AbstractApp extends AbstractComponent
         file_put_contents($logPath, $data, FILE_APPEND);
     }
 
+    /**
+     *
+     */
     protected function logErrors()
     {
         $whoops = new \Whoops\Run;
@@ -143,17 +186,23 @@ abstract class AbstractApp extends AbstractComponent
         $whoops->register();
     }
 
+    /**
+     *
+     */
     protected function logAccess()
     {
         $data = sprintf("[%s]:[Requested URL]: %s\n",
             date("Y-m-d h:i:s", time()),
-            Pi::$app->request->server('REQUEST_URI'));
+            Pi::$app->request->server['REQUEST_URI']);
 
         $logPath = $this->runtimePath . 'access.log';
 
         file_put_contents($logPath, $data, FILE_APPEND);
     }
 
+    /**
+     * @return bool
+     */
     protected function hasRuntime()
     {
         if (!file_exists($this->runtimePath))

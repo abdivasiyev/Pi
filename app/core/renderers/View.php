@@ -1,6 +1,6 @@
 <?php
 
-namespace app\core\template;
+namespace app\core\renderers;
 
 use app\core\base\AbstractView;
 use InvalidArgumentException;

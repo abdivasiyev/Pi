@@ -6,7 +6,12 @@ use InvalidArgumentException;
 
 class Html
 {
-    
+
+    /**
+     * @param $data
+     * @param int $round
+     * @return array
+     */
     public static function encode($data, $round = 12)
     {
         if ($round <= 0)
@@ -16,6 +21,11 @@ class Html
         
         if (is_array($data))
         {
+            if (empty($data))
+            {
+                return $data;
+            }
+
             foreach ($data as $key => $value)
             {
                 if (is_array($value))
@@ -29,6 +39,6 @@ class Html
             }
         }
 
-        return htmlspecialchars($data);
+        return $data;
     }
 }

@@ -6,12 +6,21 @@ use app\core\router\Dispatcher;
 
 class AbstractRouter extends AbstractComponent
 {
+    /**
+     * @var array
+     */
     protected $routes = [];
+    /**
+     * @var
+     */
     protected $dispatcher;
+    /**
+     * @var
+     */
     protected $host;
 
     /**
-     * Router constructor.
+     * AbstractRouter constructor.
      * @param $host
      */
     public function __construct($host)
@@ -37,7 +46,7 @@ class AbstractRouter extends AbstractComponent
     /**
      * @param $method
      * @param $uri
-     * @return DispatchedRoute
+     * @return \app\core\router\DispatchedRoute|void
      */
     public function dispatch($method, $uri)
     {

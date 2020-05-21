@@ -2,14 +2,14 @@
 
 namespace app\controllers;
 
-use Pi;
-use app\core\base\Controller;
+use app\core\renderers\Controller;
 
 class HomeController extends Controller
 {
 
-    public function index($slug = null)
+    public function index()
     {
+        debug(\Pi::$app->config);
         return $this->render('home/index', ['name' => 'Asliddin']);
     }
 

@@ -5,7 +5,7 @@ namespace app\core\router;
 class Dispatcher
 {
     /**
-     * @var array
+     * @var string[]
      */
     private $methods = [
         'GET',
@@ -20,7 +20,7 @@ class Dispatcher
     ];
 
     /**
-     * @var array
+     * @var array[]
      */
     private $routes = [
         'GET'       => [],
@@ -35,7 +35,7 @@ class Dispatcher
     ];
 
     /**
-     * @var array
+     * @var string[]
      */
     private $patterns = [
         'int'   => '[0-9]+',
@@ -44,6 +44,11 @@ class Dispatcher
         'slug'  => '[a-z0-9]+(?:-[a-z0-9]+)*'
     ];
 
+    /**
+     * @param $method
+     * @param $pattern
+     * @param $controller
+     */
     public function register($method, $pattern, $controller)
     {
         $convert = $this->convertPattern($pattern);
@@ -59,11 +64,10 @@ class Dispatcher
         $this->patterns[$key] = $pattern;
     }
 
-    
     /**
      * @param $method
      * @param $uri
-     * @return DispatchedRoute|void
+     * @return DispatchedRoute
      */
     public function dispatch($method, $uri)
     {
@@ -79,7 +83,7 @@ class Dispatcher
 
     /**
      * @param $method
-     * @return array|mixed
+     * @return array
      */
     private function routes($method)
     {
@@ -104,7 +108,7 @@ class Dispatcher
 
     /**
      * @param $pattern
-     * @return mixed
+     * @return string|string[]|null
      */
     private function convertPattern($pattern)
     {

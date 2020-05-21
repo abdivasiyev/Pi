@@ -6,19 +6,16 @@ use app\core\helpers\Html;
 
 class Post
 {
+    /**
+     * @var array
+     */
+    public $post;
 
+    /**
+     * Post constructor.
+     */
     public function __construct()
     {
-        $this->postParams = $_POST;
-    }
-
-    public function get(string $key = null)
-    {
-        if (isset($this->postParams[$key]))
-        {
-            return Html::encode($this->postParams[$key]);
-        }
-
-        return $key === null ? Html::encode($this->postParams) : null;
+        $this->post = Html::encode($_POST);
     }
 }

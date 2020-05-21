@@ -7,18 +7,16 @@ use app\core\helpers\Html;
 class Server
 {
 
+    /**
+     * @var array
+     */
+    public $server;
+
+    /**
+     * Server constructor.
+     */
     public function __construct()
     {
-        $this->serverParams = $_SERVER;
-    }
-
-    public function get(string $key = null)
-    {
-        if (isset($this->serverParams[$key]))
-        {
-            return Html::encode($this->serverParams[$key]);
-        }
-
-        return $key === null ? Html::encode($this->serverParams) : null;
+        $this->server = Html::encode($_SERVER);
     }
 }

@@ -1,26 +1,39 @@
 <?php
 
-namespace app\core\base;
+namespace app\core\renderers;
 
+use app\core\base\AbstractController;
 use Pi;
-use ReflectionMethod;
 
 class Controller extends AbstractController
 {
 
+    /**
+     * @var
+     */
     protected $view;
 
-    protected $layout;
+    /**
+     * @var string
+     */
+    protected $layoutPath = 'layouts/';
 
-    protected $layoutPath;
+    protected $layout = 'main';
 
+    /**
+     * Controller constructor.
+     */
     public function __construct()
     {
         $this->view = Pi::$app->view;
-        $this->layoutPath = 'layouts/';
-        $this->layout = $this->layoutPath . 'main';
     }
 
+    /**
+     * @param $controller
+     * @param $method
+     * @param $parameters
+     * @return mixed|void
+     */
     public function init($controller, $method, $parameters)
     {
         $controller = new $controller;
@@ -29,8 +42,14 @@ class Controller extends AbstractController
         call_user_func([$controller, 'afterExecute']);
     }
 
-    protected function render($view, $vars = [])
+    /**
+     * @param $view
+     * @param array $vars
+     */
+    protected function render($view = '', $vars = [])
     {
+        $this->layout = $this->layoutPath . $this->layout;
+
         $view = $this->view->render($view, $vars);
 
         echo $this->view->render($this->layout, ['content' => $view]);

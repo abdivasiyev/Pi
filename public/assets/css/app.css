@@ -1,0 +1,9 @@
+html {
+    width: 100%;
+}
+
+pre {
+    width: 80%;
+    background-color: #d0d0d0;
+    color: #000000;
+}
