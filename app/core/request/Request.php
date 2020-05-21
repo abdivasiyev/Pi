@@ -1,71 +1,37 @@
 <?php
 
-namespace app\request;
+namespace app\core\request;
 
-use app\request\Server;
-use app\request\GetRequest;
-use app\request\JsonRequest;
-use app\request\PostRequest;
+use app\core\request\Get;
+use app\core\base\AbstractRequest;
 
-class Request {
+class Request extends AbstractRequest
+{
+    private $get;
 
-    private $_get;
+    private $post;
 
-    private $_post;
-
-    private $_server;
-
-    private $_json;
-
-    public $isPost = false;
-
-    public $isGet = true;
+    private $server;
 
     public function __construct()
     {
-        $this->_get = new GetRequest();
-        $this->_post = new PostRequest();
-        $this->_json = new JsonRequest();
-        $this->_server = new Server();
-
-        $this->isPost = $this->server('requestMethod') === 'POST';
-        $this->isGet = $this->server('requestMethod') === 'GET';
+        $this->get  = new Get();
+        $this->post = new Post();
+        $this->server = new Server();
     }
 
-    public function get($key = null)
+    public function get(string $key = null)
     {
-        if ($key !== null) {
-            return $this->_get->{$key};
-        }
-
-        return $this->_get->all();
+        return $this->get->get($key);
     }
 
-    public function post($key = null)
+    public function post(string $key = null)
     {
-        if ($key !== null) {
-            return $this->_post->{$key};
-        }
-
-        return $this->_post->all();
+        return $this->post->get($key);
     }
 
-    public function server($key = null)
+    public function server(string $key = null)
     {
-        if ($key !== null) {
-            return $this->_server->{$key};
-        }
-
-        return $this->_server->all();
+        return $this->server->get($key);
     }
-
-    public function json($key = null)
-    {
-        if ($key !== null) {
-            return $this->_json->{$key};
-        }
-
-        return $this->_json->all();
-    }
-
 }

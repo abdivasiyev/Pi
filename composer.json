@@ -10,11 +10,6 @@
         }
     ],
     "autoload": {
-        "classmap": [
-            "app/controllers",
-            "app/core",
-            "app/models"
-        ],
         "psr-4": {
             "app\\": "app/"
         }

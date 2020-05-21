@@ -1,44 +1,38 @@
 <?php
 
-namespace app\base;
+namespace app\core\base;
 
 use App;
-use app\base\View;
-use app\helpers\Html;
-use app\helpers\Converter;
+use ReflectionMethod;
 
-class Controller {
-    
-    public $id;
+class Controller extends AbstractController
+{
 
-    public $method;
+    protected $view;
 
-    public $layout = 'main';
-    
-    private $content;
+    protected $layout;
 
-    public function __construct($id)
+    protected $layoutPath;
+
+    public function __construct()
     {
-        $this->id = $id;
+        $this->view = App::$app->view;
+        $this->layoutPath = 'layouts/';
+        $this->layout = $this->layoutPath . 'main';
     }
 
-    protected function render($viewName, $params = [])
+    public function init($controller, $method, $parameters)
     {
-        $folder = Converter::camelCaseToDashes($this->id);
-        
-        $view = new View($viewName);
-        $this->content = $view->render($folder . '/' . $viewName, $params);
-
-        return $this->content;
+        $controller = new $controller;
+        call_user_func([$controller, 'beforeExecute']);
+        call_user_func_array([$controller, $method], $parameters);
+        call_user_func([$controller, 'afterExecute']);
     }
 
-    protected function renderJson($params)
+    protected function render($view, $vars = [])
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-        
-        $response = json_encode($params, JSON_UNESCAPED_UNICODE);
+        $view = $this->view->render($view, $vars);
 
-        return $response;
+        echo $this->view->render($this->layout, ['content' => $view]);
     }
 }

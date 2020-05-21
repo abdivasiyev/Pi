@@ -1,6 +1,5 @@
 <?php
 
-class App extends \app\BaseApp
-{
+use app\core\base\AbstractApp;
 
-}
+class App extends AbstractApp {}
