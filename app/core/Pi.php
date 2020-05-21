@@ -2,4 +2,4 @@
 
 use app\core\base\AbstractApp;
 
-class App extends AbstractApp {}
+class Pi extends AbstractApp {}

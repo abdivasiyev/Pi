@@ -2,7 +2,7 @@
 
 namespace app\core\base;
 
-use App;
+use Pi;
 use ErrorException;
 use Whoops\Handler\Handler;
 use app\core\base\Controller;
@@ -29,7 +29,7 @@ abstract class AbstractApp extends AbstractComponent
     public static function getInstance()
     {
         if (static::$app === null) {
-            return new App();
+            return new Pi();
         }
 
         return static::$app;
@@ -42,7 +42,7 @@ abstract class AbstractApp extends AbstractComponent
             $this->logErrors();
         }
         try {
-            static::$app = App::getInstance();
+            static::$app = Pi::getInstance();
             
             $services = $this->loadServices();
             $this->initServices($services);
@@ -53,7 +53,7 @@ abstract class AbstractApp extends AbstractComponent
             // Logging execution time and accesses.
             $this->logExecution($startTime);
             $this->logAccess();
-            // varDump(App::$app->router);
+            // varDump(Pi::$app->router);
         } catch (ErrorException $e) {
             exit($e->getMessage());
         }
@@ -81,16 +81,16 @@ abstract class AbstractApp extends AbstractComponent
 
     protected function initRoutes()
     {
-        App::$app->router->initRoutes();
+        Pi::$app->router->initRoutes();
     }
 
     protected function initController()
     {
         try {
-            $requestMethod = App::$app->request->server('REQUEST_METHOD');
-            $requestUri = App::$app->request->server('REQUEST_URI');
+            $requestMethod = Pi::$app->request->server('REQUEST_METHOD');
+            $requestUri = Pi::$app->request->server('REQUEST_URI');
             $requestUri = ($position = strpos($requestUri, '?')) ? $requestUri = substr($requestUri, 0, $position) : $requestUri;
-            $routerDispatch = App::$app->router->dispatch(
+            $routerDispatch = Pi::$app->router->dispatch(
                 $requestMethod,
                 $requestUri);
 
@@ -147,7 +147,7 @@ abstract class AbstractApp extends AbstractComponent
     {
         $data = sprintf("[%s]:[Requested URL]: %s\n",
             date("Y-m-d h:i:s", time()),
-            App::$app->request->server('REQUEST_URI'));
+            Pi::$app->request->server('REQUEST_URI'));
 
         $logPath = $this->runtimePath . 'access.log';
 

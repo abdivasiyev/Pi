@@ -14,7 +14,7 @@ abstract class AbstractComponent
             return $this->container[$key];
         }
 
-        throw new InvalidArgumentException(sprintf("%s is not exists in the App container.", $key));
+        throw new InvalidArgumentException(sprintf("%s is not exists in the Pi container.", $key));
     }
 
     public function __set($key, $value)

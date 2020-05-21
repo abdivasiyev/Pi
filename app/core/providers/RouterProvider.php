@@ -2,7 +2,7 @@
 
 namespace app\core\providers;
 
-use App;
+use Pi;
 use app\core\router\Router;
 use app\core\base\AbstractProvider;
 
@@ -13,6 +13,6 @@ class RouterProvider extends AbstractProvider
 
     public function init()
     {
-        return new Router(App::$app->baseUrl);
+        return new Router(Pi::$app->baseUrl);
     }
 }

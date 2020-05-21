@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use App;
+use Pi;
 use app\core\base\Controller;
 
 class HomeController extends Controller

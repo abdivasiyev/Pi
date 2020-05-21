@@ -2,7 +2,7 @@
 
 namespace app\core\base;
 
-use App;
+use Pi;
 use ReflectionMethod;
 
 class Controller extends AbstractController
@@ -16,7 +16,7 @@ class Controller extends AbstractController
 
     public function __construct()
     {
-        $this->view = App::$app->view;
+        $this->view = Pi::$app->view;
         $this->layoutPath = 'layouts/';
         $this->layout = $this->layoutPath . 'main';
     }

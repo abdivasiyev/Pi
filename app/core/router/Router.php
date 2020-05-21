@@ -2,7 +2,7 @@
 
 namespace app\core\router;
 
-use App;
+use Pi;
 use InvalidArgumentException;
 use app\core\base\AbstractRouter;
 
@@ -20,7 +20,7 @@ class Router extends AbstractRouter
     {
         parent::__construct($host);
 
-        // $this->routePath = App::$app->config->routePath;
+        // $this->routePath = Pi::$app->config->routePath;
         $this->routePath = APP_DIR . 'config/routes.php';
     }
 
@@ -39,7 +39,7 @@ class Router extends AbstractRouter
         {
             if (isset($route[$this->patternKey]))
             {
-                App::$app->router->add($key,
+                Pi::$app->router->add($key,
                     $route[$this->patternKey],
                     $route[$this->controllerKey],
                     isset($route[$this->methodKey]) ? $route[$this->methodKey] : 'GET'
@@ -48,7 +48,7 @@ class Router extends AbstractRouter
             else
             {
                 $controller = ucfirst($key) . 'Controller:' . $route[1];
-                App::$app->router->add($key,
+                Pi::$app->router->add($key,
                     $route[0],
                     $controller,
                     isset($route[2]) ? $route[2] : 'GET'
