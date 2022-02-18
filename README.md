@@ -1,4 +1,4 @@
-# XFramework
+# PiFramework
 
 1. Type your terminal
     ```bash 
